@@ -29,6 +29,10 @@ ul {
 :root {
  --light_gray: rgb(	217, 217, 217);
  --white_BG:  #FFFFFF;
+ --overlay: rgba(223, 215, 215, 0.8);
+ --white: rgb(255,255,255); 
+
+ --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 
