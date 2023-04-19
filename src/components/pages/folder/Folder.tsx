@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
-const Folders: FC = () => {
+const Folder: FC = () => {
   return <div></div>;
 };
 
-export default Folders;
+export default Folder;
