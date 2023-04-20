@@ -26,11 +26,21 @@ ul {
   list-style: none;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Carter One', cursive;
+}
+
 :root {
- --light_gray: rgb(	217, 217, 217);
+ --light_gray: rgb(217, 217, 217);
  --white_BG:  #FFFFFF;
  --overlay: rgba(223, 215, 215, 0.8);
  --white: rgb(255,255,255); 
+ --blue_Btn: rgb(51,51,255);
+ --btn_border: rgb(102,0,204);
 
  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
