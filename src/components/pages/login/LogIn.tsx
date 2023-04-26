@@ -17,7 +17,7 @@ const LogIn: FC = () => {
 
   const formSubmit = (e: React.ChangeEvent<unknown>) => {
     e.preventDefault();
-    // fetch to database
+    // fetch to database + set jwt to store
   };
 
   return (
