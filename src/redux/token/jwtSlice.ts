@@ -6,10 +6,18 @@ import {
   fetchLoginError,
 } from "./actions";
 
-const initialState = {
-  jwtValue: "",
-  loading: false,
-  error: null,
+const initialJwt = localStorage.getItem("token");
+
+type Token = string | null;
+
+type Tokens = {
+  jwtValue: Token | null;
+  isLoggedIn: boolean;
+};
+
+const initialState: Tokens = {
+  jwtValue: initialJwt || null,
+  isLoggedIn: false,
 };
 
 export const jwtSlice = createSlice({
@@ -17,15 +25,14 @@ export const jwtSlice = createSlice({
   initialState,
   reducers: {
     [fetchLogInRequest.toString()]: (store) => {
-      store.loading = true;
+      store.isLoggedIn = true;
     },
     [fetchLoginSuccess.toString()]: (store, { payload }) => {
-      store.loading = false;
       store.jwtValue = payload;
     },
     [fetchLoginError.toString()]: (store, { payload }) => {
-      store.loading = false;
-      store.error = payload;
+      store.isLoggedIn = false;
+      // store.error = payload;
     },
   },
 });
