@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import publicRoutes from "./publicRoutes";
@@ -7,14 +7,15 @@ import privateRoutes from "./privateRoutes";
 import { getJwt } from "../redux/token/selectors";
 
 const RoutesComponent: FC = () => {
-  const [jwtToken, setJwtToken] = useState(false);
+  const token = useSelector(getJwt);
+  const dispatch = useDispatch();
   // redux
 
   // getAllAlbums - useEff
 
   return (
     <Routes>
-      {!jwtToken
+      {!token
         ? publicRoutes.map((route) => (
             <Route
               key={route.path}

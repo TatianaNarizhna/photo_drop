@@ -23,14 +23,15 @@ const initialState: Tokens = {
 export const jwtSlice = createSlice({
   name: "jwt",
   initialState,
-  reducers: {
+  reducers: {},
+  extraReducers: {
     [fetchLogInRequest.toString()]: (store) => {
       store.isLoggedIn = true;
     },
     [fetchLoginSuccess.toString()]: (store, { payload }) => {
       store.jwtValue = payload;
     },
-    [fetchLoginError.toString()]: (store, { payload }) => {
+    [fetchLoginError.toString()]: (store, {}) => {
       store.isLoggedIn = false;
       // store.error = payload;
     },
