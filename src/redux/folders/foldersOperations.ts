@@ -1,12 +1,9 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { getJwt } from "./../token/selectors";
 
 axios.defaults.baseURL = "https://north-wind.pp.ua:5533/api/v1";
-
-const token = useSelector(getJwt);
 
 const tokenHeader = {
   set(token: string) {
@@ -28,7 +25,32 @@ export const fetchAllFolders = createAsyncThunk(
     }
     tokenHeader.set(token);
     try {
-      const data = await axios.get("/folders");
+      const response = await axios.get("/folders");
+      const data = response.data;
+      const headers = {
+        "content-length": response.headers["content-length"],
+        "content-type": response.headers["content-type"],
+      };
+      return { data, headers };
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const fetchAddFolder = createAsyncThunk(
+  "folders/add",
+  async (cred, thunkAPI) => {
+    // const folderCred = { name: cred.name, location: cred.location, date: cred.data }; - put as headers
+    const state = thunkAPI.getState() as RootState;
+    const token = state.jwt.jwtValue;
+
+    if (token === null) {
+      return thunkAPI.rejectWithValue("");
+    }
+    tokenHeader.set(token);
+    try {
+      const data = await axios.post("/folders", cred);
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data.message);

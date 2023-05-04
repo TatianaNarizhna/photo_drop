@@ -1,8 +1,7 @@
 export type Album = {
   name: string;
-  id: number;
+  location: number;
   date: string;
-  img: string;
 };
 
 export type Albums = {
