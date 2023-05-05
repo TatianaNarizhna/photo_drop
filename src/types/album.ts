@@ -1,6 +1,8 @@
 export type Album = {
+  id: string;
+  photographerId: string;
   name: string;
-  location: number;
+  location: string;
   date: string;
 };
 

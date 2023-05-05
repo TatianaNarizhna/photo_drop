@@ -19,8 +19,6 @@ const RoutesComponent: FC = () => {
     }
   }, [token]);
 
-  // getAllAlbums - useEff
-
   return (
     <Routes>
       {!token

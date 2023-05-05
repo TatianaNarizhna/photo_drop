@@ -31,7 +31,7 @@ export const albumsSlice = createSlice({
       })
       .addCase(fetchAddFolder.fulfilled, (store, { payload }) => {
         store.loading = true;
-        const album = createDraft<Album>({
+        const album: any = createDraft({
           name: payload.data.name,
           location: payload.data.location,
           date: payload.data.date,

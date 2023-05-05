@@ -1,3 +1,3 @@
 import { RootState } from "../store";
 
-// export const getAllAlbums = (state: RootState) => state.folders.albums;
+export const getAllAlbums = (state: RootState) => state.albums.albums;
