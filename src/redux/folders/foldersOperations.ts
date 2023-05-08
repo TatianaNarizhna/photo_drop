@@ -57,3 +57,28 @@ export const fetchAddFolder = createAsyncThunk(
     }
   }
 );
+
+export const folderDelete = createAsyncThunk(
+  "folder/delete",
+  async (id: string, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const token = state.jwt.jwtValue;
+
+    if (token === null) {
+      return thunkAPI.rejectWithValue("");
+    }
+    tokenHeader.set(token);
+
+    try {
+      const { data } = await axios.delete(`/folders/${id}`);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+// export const folderDelete = async (id: string) => {
+//   const { data } = await axios.delete(`/folders/${id}`);
+//   // console.log(data);
+//   return data;
+// };

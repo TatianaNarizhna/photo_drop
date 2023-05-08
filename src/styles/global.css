@@ -32,6 +32,8 @@ ul {
 
 body {
   font-family: 'Carter One', cursive;
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 :root {
@@ -41,6 +43,7 @@ body {
  --white: rgb(255,255,255); 
  --blue_Btn: rgb(51,51,255);
  --btn_border: rgb(102,0,204);
+ --black: rgb(0,0,0);
 
  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }

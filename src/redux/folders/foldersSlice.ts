@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createDraft } from "immer";
-import { fetchAllFolders, fetchAddFolder } from "./foldersOperations";
+import {
+  fetchAllFolders,
+  fetchAddFolder,
+  folderDelete,
+} from "./foldersOperations";
 import { Albums, Album } from "../../types/album";
 
 const initialState: Albums = {
@@ -41,6 +45,15 @@ export const albumsSlice = createSlice({
       .addCase(fetchAddFolder.rejected, (store, { payload }) => {
         store.loading = false;
         store.error = payload as string;
+      })
+      .addCase(folderDelete.pending, (store) => {
+        store.loading = true;
+      })
+      .addCase(folderDelete.fulfilled, (store, { payload }) => {
+        store.loading = true;
+        store.albums = store.albums.filter(
+          (album: Album) => album.id !== payload
+        );
       });
   },
 });

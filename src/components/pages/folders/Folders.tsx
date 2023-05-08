@@ -1,17 +1,39 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../redux/store";
+import {
+  folderDelete,
+  fetchAllFolders,
+} from "../../../redux/folders/foldersOperations";
 import { getAllAlbums } from "../../../redux/folders/foldersSelectors";
 import { Album } from "../../../types/album";
 import Logo from "../../../svgSprite/symbol-defs.svg";
 
 import HeaderComponent from "../../common/header/HeaderComponent";
-import { FolderWrapper } from "./FoldersStyled";
+import {
+  FolderWrapper,
+  FlexWrapper,
+  Folder,
+  FolderText,
+  TextWrapper,
+  SvgWrapper,
+  ButtonDelete,
+} from "./FoldersStyled";
 
 const Folders: FC = () => {
   const folders = useSelector(getAllAlbums);
+  const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
 
-  // receive the folders from store and map (Link)
+  const deleteFolder = (id: string) => {
+    dispatch(folderDelete(id));
+  };
+
+  useEffect(() => {
+    dispatch(fetchAllFolders());
+  }, [folders]);
+
   return (
     <>
       <HeaderComponent />
@@ -19,14 +41,35 @@ const Folders: FC = () => {
         {" "}
         {folders?.length
           ? folders.map((el: Album, index) => (
-              <Link key={index} to={`/folder/${el.id}`}>
-                <div>
-                  {" "}
-                  <svg width={25} height={25}>
-                    <use xlinkHref={`${Logo}#icon-folder_icon`}></use>
+              <Folder key={index}>
+                {" "}
+                <Link to={`/folder/${el.id}`}>
+                  <FlexWrapper>
+                    {" "}
+                    <SvgWrapper>
+                      {" "}
+                      <svg width={25} height={25}>
+                        <use xlinkHref={`${Logo}#icon-folder_icon`}></use>
+                      </svg>
+                    </SvgWrapper>
+                    <TextWrapper>
+                      {" "}
+                      <FolderText>{el.name}</FolderText>
+                      <FolderText>{el.location}</FolderText>
+                    </TextWrapper>
+                  </FlexWrapper>
+                </Link>
+                <ButtonDelete
+                  type="button"
+                  onClick={() => {
+                    deleteFolder(el.id);
+                  }}
+                >
+                  <svg width={15} height={15}>
+                    <use xlinkHref={`${Logo}#icon-close`}></use>
                   </svg>
-                </div>
-              </Link>
+                </ButtonDelete>
+              </Folder>
             ))
           : "There aren't albums"}
       </FolderWrapper>
