@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../redux/store";
 import React, { FC, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,8 +12,11 @@ const LogIn: FC = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [loader, setLoader] = useState(false);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
+
+  const token = window.localStorage.getItem("token");
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLogin(e.target.value);
@@ -25,6 +29,10 @@ const LogIn: FC = () => {
     e.preventDefault();
 
     dispatch(logInOperation({ login, password }));
+
+    if (token !== "") {
+      navigate("/folders", { replace: true });
+    }
   };
 
   return (

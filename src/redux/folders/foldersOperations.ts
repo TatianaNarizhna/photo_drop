@@ -1,7 +1,5 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { getJwt } from "./../token/selectors";
 
 axios.defaults.baseURL = "https://north-wind.pp.ua:5533/api/v1";
 
@@ -17,8 +15,7 @@ const tokenHeader = {
 export const fetchAllFolders = createAsyncThunk(
   "folders/fetchAll",
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const token = state.jwt.jwtValue;
+    const token = window.localStorage.getItem("token");
 
     if (token === null) {
       return thunkAPI.rejectWithValue("");
@@ -42,8 +39,8 @@ export const fetchAddFolder = createAsyncThunk(
   "folders/add",
   async (cred, thunkAPI) => {
     // const folderCred = { name: cred.name, location: cred.location, date: cred.data }; - put as headers
-    const state = thunkAPI.getState() as RootState;
-    const token = state.jwt.jwtValue;
+
+    const token = window.localStorage.getItem("token");
 
     if (token === null) {
       return thunkAPI.rejectWithValue("");
@@ -61,8 +58,7 @@ export const fetchAddFolder = createAsyncThunk(
 export const folderDelete = createAsyncThunk(
   "folder/delete",
   async (id: string, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const token = state.jwt.jwtValue;
+    const token = window.localStorage.getItem("token");
 
     if (token === null) {
       return thunkAPI.rejectWithValue("");

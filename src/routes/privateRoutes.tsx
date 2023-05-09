@@ -3,7 +3,7 @@ import Folder from "../components/pages/folder/Folder";
 import NotFound from "../components/pages/notFound/NotFound";
 
 const privateRoutes = [
-  { path: "/", component: <Folders /> },
+  { path: "/folders", component: <Folders /> },
   { path: "/folder/:id", component: <Folder /> },
   {
     path: "*",

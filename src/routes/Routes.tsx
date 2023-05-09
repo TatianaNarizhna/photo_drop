@@ -13,11 +13,12 @@ const RoutesComponent: FC = () => {
   const token = useSelector(getJwt);
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
 
-  useEffect(() => {
-    if (token) {
-      dispatch(fetchAllFolders());
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token) {
+  //     dispatch(fetchAllFolders());
+  //     console.log("jjj");
+  //   }
+  // }, [dispatch, token]);
 
   return (
     <Routes>

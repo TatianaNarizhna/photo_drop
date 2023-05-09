@@ -8,6 +8,7 @@ import {
   fetchAllFolders,
 } from "../../../redux/folders/foldersOperations";
 import { getAllAlbums } from "../../../redux/folders/foldersSelectors";
+import { getJwt } from "../../../redux/token/selectors";
 import { Album } from "../../../types/album";
 import Logo from "../../../svgSprite/symbol-defs.svg";
 
@@ -23,6 +24,7 @@ import {
 } from "./FoldersStyled";
 
 const Folders: FC = () => {
+  const token = useSelector(getJwt);
   const folders = useSelector(getAllAlbums);
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
 
@@ -30,16 +32,25 @@ const Folders: FC = () => {
     dispatch(folderDelete(id));
   };
 
+  // useEffect(() => {
+  //   dispatch(fetchAllFolders());
+  // }, [folders]);
+
+  console.log(token);
   useEffect(() => {
-    dispatch(fetchAllFolders());
-  }, [folders]);
+    if (token) {
+      dispatch(fetchAllFolders());
+      console.log("no");
+      console.log(folders);
+    }
+  }, [token]);
 
   return (
     <>
       <HeaderComponent />
       <FolderWrapper>
         {" "}
-        {folders?.length
+        {folders?.length > 0
           ? folders.map((el: Album, index) => (
               <Folder key={index}>
                 {" "}
@@ -65,7 +76,7 @@ const Folders: FC = () => {
                     deleteFolder(el.id);
                   }}
                 >
-                  <svg width={15} height={15}>
+                  <svg width={15} height={15} fill="gray">
                     <use xlinkHref={`${Logo}#icon-close`}></use>
                   </svg>
                 </ButtonDelete>
