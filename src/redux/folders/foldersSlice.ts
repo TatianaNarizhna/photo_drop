@@ -5,7 +5,7 @@ import {
   fetchAddFolder,
   folderDelete,
 } from "./foldersOperations";
-import { Albums, Album } from "../../types/album";
+import { Albums, Album, AddAlbum } from "../../types/album";
 
 const initialState: Albums = {
   albums: [],
@@ -34,11 +34,13 @@ export const albumsSlice = createSlice({
         store.loading = true;
       })
       .addCase(fetchAddFolder.fulfilled, (store, { payload }) => {
-        store.loading = true;
-        const album: any = createDraft({
+        store.loading = false;
+        const album: Album = createDraft({
           name: payload.data.name,
           location: payload.data.location,
           date: payload.data.date,
+          id: payload.data.id,
+          photographerId: payload.data.photographerId,
         });
         store.albums?.push(album);
       })
@@ -50,10 +52,14 @@ export const albumsSlice = createSlice({
         store.loading = true;
       })
       .addCase(folderDelete.fulfilled, (store, { payload }) => {
-        store.loading = true;
+        store.loading = false;
+        console.log(payload);
         store.albums = store.albums.filter(
           (album: Album) => album.id !== payload
         );
+      })
+      .addCase(folderDelete.rejected, (store, { payload }) => {
+        store.loading = false;
       });
   },
 });

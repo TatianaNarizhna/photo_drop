@@ -36,7 +36,9 @@ export const ModalHeader = styled.div`
   margin-bottom: 40px;
 `;
 
-export const FormModal = styled.form``;
+export const FormModal = styled.form`
+  width: 100%;
+`;
 
 export const Input = styled.input`
   box-sizing: border-box;
@@ -45,6 +47,8 @@ export const Input = styled.input`
   width: 100%;
   padding: 15px;
   margin-bottom: 10px;
+  border: 1px solid var(--light_gray);
+  color: gray;
 `;
 
 export const ButtonClose = styled.button`

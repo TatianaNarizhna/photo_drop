@@ -11,3 +11,9 @@ export type Albums = {
   loading: boolean;
   error: unknown;
 };
+
+export type AddAlbum = {
+  name: string;
+  location: string;
+  date: string;
+};

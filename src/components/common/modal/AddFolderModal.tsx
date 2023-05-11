@@ -1,5 +1,8 @@
 import React, { FC, useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import Logo from "../../../svgSprite/symbol-defs.svg";
+import { fetchAddFolder } from "../../../redux/folders/foldersOperations";
 import {
   Input,
   Overlay,
@@ -11,6 +14,8 @@ import {
   ButtonClose,
 } from "./AddFolderModalStyled";
 
+import { RootState } from "../../../redux/store";
+
 type ModalProps = {
   toggleModal: () => void;
 };
@@ -19,6 +24,8 @@ const AddFolderModal: FC<ModalProps> = ({ toggleModal }) => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [date, setDate] = useState("");
+
+  const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -31,6 +38,13 @@ const AddFolderModal: FC<ModalProps> = ({ toggleModal }) => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [toggleModal]);
+
+  const createFolder = (e: React.ChangeEvent<unknown>) => {
+    e.preventDefault();
+
+    dispatch(fetchAddFolder({ name, location, date }));
+    toggleModal();
+  };
 
   return (
     <Overlay>
@@ -48,7 +62,7 @@ const AddFolderModal: FC<ModalProps> = ({ toggleModal }) => {
               ></use>
             </svg>
           </ModalHeader>
-          <FormModal action="">
+          <FormModal action="" onSubmit={createFolder}>
             <Input
               type="text"
               name="name"

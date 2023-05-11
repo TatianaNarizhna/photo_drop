@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,26 +24,26 @@ import {
 } from "./FoldersStyled";
 
 const Folders: FC = () => {
+  const [localFolders, setLocalFolders] = useState<Album[]>([]);
   const token = useSelector(getJwt);
   const folders = useSelector(getAllAlbums);
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
 
-  const deleteFolder = (id: string) => {
-    dispatch(folderDelete(id));
-  };
-
-  // useEffect(() => {
-  //   dispatch(fetchAllFolders());
-  // }, [folders]);
-
-  console.log(token);
   useEffect(() => {
     if (token) {
       dispatch(fetchAllFolders());
-      console.log("no");
-      console.log(folders);
     }
   }, [token]);
+
+  // useEffect(() => {
+  //   setLocalFolders(folders || []);
+  // }, [folders]);
+
+  const deleteFolder = (id: string) => {
+    dispatch(folderDelete(id)).then(() => {
+      dispatch(fetchAllFolders());
+    });
+  };
 
   return (
     <>
