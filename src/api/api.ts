@@ -28,7 +28,21 @@ export const uploadPhoto = async (id: string, files: FileList) => {
         "Content-Type": "multipart/form-data",
       },
     });
+    console.log(data);
 
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchAllPhotos = async (id: string) => {
+  const token = window.localStorage.getItem("token");
+  if (token !== null) {
+    tokenHeader.set(token);
+  }
+  try {
+    const { data } = await axios.get(`/folders/${id} `);
     return data;
   } catch (error) {
     console.log(error);

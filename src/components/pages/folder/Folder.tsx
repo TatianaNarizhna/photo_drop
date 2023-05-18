@@ -1,10 +1,24 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { uploadPhoto } from "../../../api/api";
+import { uploadPhoto, fetchAllPhotos } from "../../../api/api";
+
+import { PhotosList, PhotoEl } from "./FolderStyled";
 
 const Folder: FC = () => {
-  const [photos, setPhotos] = useState<any>([]);
+  const [allPotos, setAllPhotos] = useState<any>([]);
   const { id } = useParams<string>();
+
+  useEffect(() => {
+    if (id !== undefined) {
+      fetchAllPhotos(id)
+        .then(({ photos }) => {
+          setAllPhotos([...allPotos, ...photos]);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [id]);
+
+  console.log(allPotos);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -15,12 +29,13 @@ const Folder: FC = () => {
 
     if (files) {
       const uploadedPhotos = await uploadPhoto(id, files);
-      setPhotos([...photos, ...uploadedPhotos]);
+      return uploadedPhotos;
     }
   };
 
   const handleClick = () => {
     const fileInput = document.getElementById("file-input");
+
     if (fileInput) {
       fileInput.click();
     }
@@ -29,8 +44,19 @@ const Folder: FC = () => {
   return (
     <section>
       <div>
-        {photos?.length > 0 ? (
-          <ul>{photos.map((el: any, i: any) => console.log(el))}</ul>
+        {allPotos?.length > 0 ? (
+          <PhotosList>
+            {allPotos.map((el: any, i: any) => (
+              <PhotoEl key={i}>
+                <img
+                  src={el.iconPhotoUrl}
+                  // width="50"
+                  // height="50"
+                  alt={`Photo ${i + 1}`}
+                />
+              </PhotoEl>
+            ))}
+          </PhotosList>
         ) : (
           "There are not photos!"
         )}

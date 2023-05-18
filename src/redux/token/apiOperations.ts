@@ -24,7 +24,6 @@ export const logInOperation = (
     try {
       dispatch(fetchLogInRequest());
       const { data } = await logInInstance.post("/login", dataLogin);
-      console.log(data);
       dispatch(fetchLoginSuccess(data));
       localStorage.setItem("token", data.accessToken);
     } catch (error: any) {
