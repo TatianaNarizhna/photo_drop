@@ -2,14 +2,14 @@ import React, { FC, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { uploadPhoto, fetchAllPhotos } from "../../../api/api";
 import Folder from "../folder/Folder";
+import { IPhoto } from "../folder/folderTypes";
 
 const FolderContainer: FC = () => {
-  const [allPhotos, setAllPhotos] = useState<any>([]);
+  const [allPhotos, setAllPhotos] = useState<IPhoto[]>([]);
   const { id } = useParams<string>();
 
   useEffect(() => {
     if (id !== undefined) {
-      console.log("allph");
       fetchAllPhotos(id)
         .then(({ photos }) => {
           setAllPhotos([...allPhotos, ...photos]);
@@ -18,11 +18,10 @@ const FolderContainer: FC = () => {
     }
   }, [id]);
 
-  console.log(allPhotos, "allstate");
+  console.log(allPhotos);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    console.log("upload");
 
     if (id === undefined || !files) {
       return;

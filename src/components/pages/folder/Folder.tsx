@@ -3,7 +3,13 @@ import { useParams } from "react-router-dom";
 import { uploadPhoto, fetchAllPhotos } from "../../../api/api";
 import { IPhoto } from "./folderTypes";
 
-import { PhotosList, PhotoEl } from "./FolderStyled";
+import {
+  PhotosList,
+  PhotoEl,
+  UploadBtn,
+  Section,
+  BtnContainer,
+} from "./FolderStyled";
 
 interface IProps {
   allPhotos?: IPhoto[];
@@ -12,7 +18,7 @@ interface IProps {
 }
 
 const Folder: FC<IProps> = ({ allPhotos, handleUpload, handleClick }) => (
-  <section>
+  <Section>
     <div>
       {allPhotos && allPhotos.length > 0 ? (
         <PhotosList>
@@ -36,10 +42,13 @@ const Folder: FC<IProps> = ({ allPhotos, handleUpload, handleClick }) => (
       onChange={handleUpload}
       style={{ display: "none" }}
     />
-    <button type="submit" onClick={handleClick}>
-      Upload photo
-    </button>
-  </section>
+    <BtnContainer>
+      {" "}
+      <UploadBtn type="submit" onClick={handleClick}>
+        Upload photo
+      </UploadBtn>
+    </BtnContainer>
+  </Section>
 );
 
 export default Folder;
